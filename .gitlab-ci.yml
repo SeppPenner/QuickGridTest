@@ -1,0 +1,34 @@
+variables:
+    PROJECT_NAME: "QuickGridTest"
+    BUILD_IMAGE: "sepppenner/dotnetsdk:8.0"
+    VERSION: "0.0.0"
+    NUGET_PACKAGES_DIRECTORY: '.nuget'
+
+stages:
+  - build
+
+default:
+  before_script:
+    - touch version.txt
+    - dotnet-gitversion /output json /showvariable SemVer > version.txt
+    - export VERSION=`cat version.txt`
+    - echo "before script sets VERSION -> $VERSION"
+
+build-default:
+  stage: build
+  image: $BUILD_IMAGE
+  script:  
+    - echo "building $VERSION"
+    - 'dotnet restore -r win-x64 --configfile NuGet.Config --packages $NUGET_PACKAGES_DIRECTORY src/QuickGridTest.sln'
+    # QuickGridTestr
+    - cd ../QuickGridTest
+    - rm -rf appsettings.json
+    - cp appsettings.json.template appsettings.json
+    - dotnet publish --configuration Release --no-self-contained --no-restore --output publish/
+  artifacts:
+    paths:
+      - src/QuickGridTest/publish/*
+      - version.txt
+    expire_in: 1 day
+  tags:
+    - docker
