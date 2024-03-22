@@ -21,7 +21,7 @@ build-default:
     - echo "building $VERSION"
     - 'dotnet restore -r win-x64 --packages $NUGET_PACKAGES_DIRECTORY src/QuickGridTest.sln'
     # QuickGridTestr
-    - cd ../src/QuickGridTest
+    - cd src/QuickGridTest
     - rm -rf appsettings.json
     - cp appsettings.json.template appsettings.json
     - dotnet publish --configuration Release --no-self-contained --no-restore --output publish/
