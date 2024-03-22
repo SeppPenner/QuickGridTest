@@ -19,7 +19,7 @@ build-default:
   image: $BUILD_IMAGE
   script:  
     - echo "building $VERSION"
-    - 'dotnet restore -r win-x64 --configfile NuGet.Config --packages $NUGET_PACKAGES_DIRECTORY src/QuickGridTest.sln'
+    - 'dotnet restore -r win-x64 --packages $NUGET_PACKAGES_DIRECTORY src/QuickGridTest.sln'
     # QuickGridTestr
     - cd ../QuickGridTest
     - rm -rf appsettings.json
